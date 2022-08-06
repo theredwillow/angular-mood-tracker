@@ -21,6 +21,7 @@
 .stroke {
   stroke: black;
   stroke-width: 4;
+  stroke-linecap: round;
 }
 
 .stem {
