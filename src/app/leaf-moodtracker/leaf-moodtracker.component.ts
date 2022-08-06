@@ -1,95 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-
-export interface Month {
-  month: string;
-  days: any;
-}
-
-// FIXME Make this an input
-const dailyMoods = {
-  month: 'January',
-  days: {
-    1: 6,
-    2: 5,
-    3: 4,
-    4: 3,
-    5: 2,
-    6: 1,
-    7: 6,
-    8: 5,
-    9: 4,
-    10: 3,
-    11: 2,
-    12: 1,
-    13: 6,
-    14: 5,
-    15: 4,
-    16: 3,
-    17: 2,
-    18: 1,
-    19: 6,
-    20: 5,
-    21: 4,
-    22: 3,
-    23: 2,
-    24: 1,
-    25: 6,
-    26: 5,
-    27: 4,
-    28: 3,
-    29: 2,
-    30: 1,
-    31: 6,
-  }
-} as Month;
-
-export interface Mood {
-  num: number;
-  color: string;
-}
-
-const MOODS: Mood[] = [
-  {
-    num: 1,
-    color: '#06410e'
-  },
-  {
-    num: 2,
-    color: '#096115'
-  },
-  {
-    num: 3,
-    color: '#0c821c'
-  },
-  {
-    num: 4,
-    color: '#0fa323'
-  },
-  {
-    num: 5,
-    color: '#12c32a'
-  },
-  {
-    num: 6,
-    color: '#15e431'
-  }
-];
+import {
+  Month,
+  DAILY_MOODS,
+  HexColor,
+  MOODS,
+} from './leaf-moodtracker.fixtures';
 
 @Component({
   selector: 'app-leaf-moodtracker',
   templateUrl: './leaf-moodtracker.component.html',
-  styleUrls: ['./leaf-moodtracker.component.css']
+  styleUrls: ['./leaf-moodtracker.component.css'],
 })
 export class LeafMoodtrackerComponent implements OnInit {
-  dailyMoods: Month = dailyMoods;
-  MOODS: Mood[] = MOODS;
+  // FIXME Make these inputs
+  dailyMoods: Month = DAILY_MOODS;
+  /**
+   * An array of seven hex-coded colors to be used to color the leaves.
+   * With the first one being used as the "N/A", then the second to seventh ones being used as a scale from very happy to very sad.
+   * */
+  moods: HexColor[] = MOODS;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  getMoodOfDay = (day: number): number => this.dailyMoods.days[day];
-  getMoodColor = (moodNum: number): string => this.MOODS?.find(({num}) => num === moodNum)?.color || 'BLACK';
-  getColorOfDay = (day: number): string => this.getMoodColor(this.getMoodOfDay(day));
+  getMoodOfDay = (day: number): number => this.dailyMoods.days[day] || 0;
+  getMoodColor = (moodNum: number): string =>
+    this.moods[moodNum] || this.moods[0];
+  getColorOfDay = (day: number): string =>
+    this.getMoodColor(this.getMoodOfDay(day));
 }
